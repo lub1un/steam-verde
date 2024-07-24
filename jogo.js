@@ -32,4 +32,20 @@ const criar = () => {
     }
 };
 
-
+const listar = () => {
+    if(jogos.length == 0) {
+        console.log("Nenhum jogo encontrado")
+    } else {
+        jogos.forEach((jogo, indice) => {
+            console.log(`
+            ${indice + 1}.
+            Nome: ${jogo.nome}
+            Ano de lançamento: ${jogo.ano_lancamento}
+            Duração: ${jogo.duracao}
+            Preço: ${jogo.preco}
+            Estudio: ${jogo.estudio}
+            Sequência: ${jogo.sequencia}
+            `)
+        })
+    }
+}
