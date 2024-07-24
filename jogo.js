@@ -5,14 +5,16 @@ const prompt = require("prompt-sync")();
 const jogos = [];
 
 // Função de criação de jogo
-const criar = () => {
+const modelo = () => {
     const nome = prompt("Nome do jogo: ")
     const ano_lancamento = prompt("Ano de lançamento: ")
     const duracao = prompt("Duração média: ")
     const preco = prompt("Preço: ")
     const estudio  = prompt("Qual o estúdio do jogo: ")
-    const sequencia = prompt("Qual a sequência do jogo?: ")
-
+    let sequencia = -1
+    if(listar()) {
+        sequencia = prompt("Qual a sequência do jogo? Digite 0 se não houver ") - 1;
+    }
 // Validação do cmd
     if(
         nome != "" &&
@@ -20,21 +22,36 @@ const criar = () => {
         duracao > 0 && 
         preco == 0 &&
         estudio != "" &&
-        ((sequencia > 0 && sequencia < jogos.length) || jogos.length ==0)
+        ((sequencia >= 0 && sequencia < jogos.length) || jogos.length ==0)
     ) {
-        jogos.push({
-            nome, ano_lancamento, duracao, preco, estudio, sequencia
-        })
-
-        console.log("Jogo cadastrado com sucesso")
-    } else {
-        console.log("Dados Inválidos")
+        return {
+        nome, 
+        ano_lancamento, 
+        duracao, 
+        preco, 
+        estudio, 
+        sequencia,
     }
+} else {
+    console.log("Dados inválidos")
+}
 };
 
+const criar = () => {
+const jogo = modelo()
+
+if (jogo != undefined) {
+    jogos.push(jogo);
+    console.log("Jogo cadastrado com sucesso")
+}
+
+console.log("Jogo cadastrado com sucesso")
+}
+// Listagem a respeito do game
 const listar = () => {
     if(jogos.length == 0) {
         console.log("Nenhum jogo encontrado")
+        return false
     } else {
         jogos.forEach((jogo, indice) => {
             console.log(`
@@ -47,5 +64,30 @@ const listar = () => {
             Sequência: ${jogo.sequencia}
             `)
         })
+        return true
+    }
+}
+
+// Função de atualizar dados
+const atualizar = () => {
+    listar()
+    if(!listar()) {
+        return 
+    }
+    const indice = prompt("Qual o indice que deseja atualizar? ") - 1;
+
+    const jogo = modelo()
+
+    if (
+        jogo != undefined &&
+        indice >= 0 &&
+        indice < jogos.length
+
+    ) {
+        jogos[indice] = jogo
+
+        console.log("Jogo atualizado com sucesso")
+    } else {
+        console.log("Indice Inválido")
     }
 }
