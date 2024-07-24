@@ -4,6 +4,7 @@ const prompt = require("prompt-sync")();
 // Local onde será armazenado os games
 const jogos = [];
 
+const validarIndice = indice => indice >= 0 && indice < jogos.length
 // Função de criação de jogo
 const modelo = () => {
     const nome = prompt("Nome do jogo: ")
@@ -89,5 +90,19 @@ const atualizar = () => {
         console.log("Jogo atualizado com sucesso")
     } else {
         console.log("Indice Inválido")
+    }
+}
+
+const remover = () => {
+    if(!listar()) {
+        return 
+    }
+    const indice = prompt("Qual o indice que deseja remover? ") - 1;
+
+    if(validarIndice(indice)){
+        jogos.splice(indice, 1)
+        console.log("Jogo removido com sucesso")
+    } else {
+        console.log("Falha na remoção")
     }
 }
