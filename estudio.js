@@ -2,28 +2,22 @@
 const prompt = require("prompt-sync")();
 
 // Local onde será armazenado os games
-const jogos = [];
+const estudio = [];
 
-const validarIndice = indice => indice >= 0 && indice < jogos.length
+const validarIndice = indice => indice >= 0 && indice < estudio.length
 // Função de criação de jogo
 const modelo = () => {
     const nome = prompt("Nome do jogo: ")
-    const ano_lancamento = prompt("Ano de lançamento: ")
-    const duracao = prompt("Duração média: ")
-    const preco = prompt("Preço: ")
-    const estudio  = prompt("Qual o estúdio do jogo: ")
-    let sequencia = -1
+    const pais_origem = prompt("País de origem: ")
+    const ano_criacao = prompt("Ano de criação: ")
     if(listar()) {
         sequencia = prompt("Qual a sequência do jogo? Digite 0 se não houver ") - 1;
     }
 // Validação do cmd
     if(
         nome != "" &&
-        ano_lancamento >= 1962 && ano_lancamento <= 2024 &&
-        duracao > 0 && 
-        preco == 0 &&
-        estudio != "" &&
-        ((sequencia >= 0 && sequencia < jogos.length) || jogos.length ==0)
+        pais_origem != "" &&
+        ano_criacao >
     ) {
         return {
         nome, 
@@ -42,7 +36,7 @@ const criar = () => {
 const jogo = modelo()
 
 if (jogo != undefined) {
-    jogos.push(jogo);
+    estudio.push(jogo);
     console.log("Jogo cadastrado com sucesso")
 }
 
@@ -50,11 +44,11 @@ console.log("Jogo cadastrado com sucesso")
 }
 // Listagem a respeito do game
 const listar = () => {
-    if(jogos.length == 0) {
+    if(estudio.length == 0) {
         console.log("Nenhum jogo encontrado")
         return false
     } else {
-        jogos.forEach((jogo, indice) => {
+        estudio.forEach((jogo, indice) => {
             console.log(`
             ${indice + 1}.
             Nome: ${jogo.nome}
@@ -82,10 +76,10 @@ const atualizar = () => {
     if (
         jogo != undefined &&
         indice >= 0 &&
-        indice < jogos.length
+        indice < estudio.length
 
     ) {
-        jogos[indice] = jogo
+        estudio[indice] = jogo
 
         console.log("Jogo atualizado com sucesso")
     } else {
@@ -100,16 +94,9 @@ const remover = () => {
     const indice = prompt("Qual o indice que deseja remover? ") - 1;
 
     if(validarIndice(indice)){
-        jogos.splice(indice, 1)
+        estudio.splice(indice, 1)
         console.log("Jogo removido com sucesso")
     } else {
         console.log("Falha na remoção")
     }
-}
-
-module.exports = {
-    criar,
-    atualizar,
-    listar,
-    remover
 }
