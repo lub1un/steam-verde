@@ -1,102 +1,84 @@
-// Chama a função prompt para o cmd
 const prompt = require("prompt-sync")();
 
-// Local onde será armazenado os games
-const estudio = [];
+const estudios = [];
 
-const validarIndice = indice => indice >= 0 && indice < estudio.length
-// Função de criação de jogo
+const validarIndice = (indice) => indice >= 0 && indice < estudios.length;
+
 const modelo = () => {
-    const nome = prompt("Nome do jogo: ")
-    const pais_origem = prompt("País de origem: ")
-    const ano_criacao = prompt("Ano de criação: ")
-    if(listar()) {
-        sequencia = prompt("Qual a sequência do jogo? Digite 0 se não houver ") - 1;
-    }
-// Validação do cmd
-    if(
-        nome != "" &&
-        pais_origem != "" &&
-        ano_criacao >
+    const nome = prompt("Nome do estudio: ");
+    const pais_origem = prompt("Pais de origem: ");
+    const ano_criacao = prompt("Ano de criação: ");
+
+    if (
+    nome != "" &&
+    pais_origem != "" &&
+    ano_criacao >= 1962 &&
+    ano_criacao <= 2024
     ) {
-        return {
-        nome, 
-        ano_lancamento, 
-        duracao, 
-        preco, 
-        estudio, 
-        sequencia,
+    return {
+        nome,
+        pais_origem,
+        ano_criacao,
+    };
+    } else {
+    console.log("Dados inválidos");
     }
-} else {
-    console.log("Dados inválidos")
-}
 };
 
 const criar = () => {
-const jogo = modelo()
+    const estudio = modelo();
 
-if (jogo != undefined) {
-    estudio.push(jogo);
-    console.log("Jogo cadastrado com sucesso")
-}
+    if (estudio != undefined) {
+    estudios.push(estudio);
+    console.log("estudio cadastrado com sucesso");
+    }
+};
 
-console.log("Jogo cadastrado com sucesso")
-}
-// Listagem a respeito do game
 const listar = () => {
-    if(estudio.length == 0) {
-        console.log("Nenhum jogo encontrado")
-        return false
+    if (estudios.length == 0) {
+    console.log("Nenhum estudio encontrado");
+    return false;
     } else {
-        estudio.forEach((jogo, indice) => {
-            console.log(`
-            ${indice + 1}.
-            Nome: ${jogo.nome}
-            Ano de lançamento: ${jogo.ano_lancamento}
-            Duração: ${jogo.duracao}
-            Preço: ${jogo.preco}
-            Estudio: ${jogo.estudio}
-            Sequência: ${jogo.sequencia}
-            `)
-        })
-        return true
-    }
-}
+    estudios.forEach((estudio, indice) => {
+        console.log(`
+                ${indice + 1}. 
+                ${estudio}
+                `);
+    });
 
-// Função de atualizar dados
-const atualizar = () => {
-    listar()
-    if(!listar()) {
-        return 
+    return true;
     }
+};
+
+const atualizar = () => {
+    if (!listar()) {
+    return;
+    }
+
     const indice = prompt("Qual o indice que deseja atualizar? ") - 1;
 
-    const jogo = modelo()
+    const estudio = modelo();
 
-    if (
-        jogo != undefined &&
-        indice >= 0 &&
-        indice < estudio.length
+    if (estudio != undefined && validarIndice(indice)) {
+    estudios[indice] = estudio;
 
-    ) {
-        estudio[indice] = jogo
-
-        console.log("Jogo atualizado com sucesso")
+    console.log("estudio atualizado com sucesso");
     } else {
-        console.log("Indice Inválido")
+    console.log("Falha na atualização");
     }
-}
+};
 
 const remover = () => {
-    if(!listar()) {
-        return 
+    if (!listar()) {
+    return;
     }
-    const indice = prompt("Qual o indice que deseja remover? ") - 1;
 
-    if(validarIndice(indice)){
-        estudio.splice(indice, 1)
-        console.log("Jogo removido com sucesso")
+    const indice = prompt("Qual indice você deseja remover? ") - 1;
+
+    if (validarIndice(indice)) {
+    estudios.splice(indice, 1);
+    console.log("estudio removido com sucesso");
     } else {
-        console.log("Falha na remoção")
+    console.log("Falha na remoção");
     }
-}
+};
